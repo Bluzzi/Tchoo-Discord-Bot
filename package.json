@@ -1,0 +1,29 @@
+{
+  "name": "tchoo-discord-bot",
+  "version": "1.0.0",
+  "description": "The Tchoo Discord bot, made with DiscordJS.",
+  "main": "./build/Client.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon --exec ts-node ./src/Client.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Meta-Friend-Team/Tchoo-Discord-Bot.git"
+  },
+  "author": "Bluzzi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Meta-Friend-Team/Tchoo-Discord-Bot/issues"
+  },
+  "homepage": "https://github.com/Meta-Friend-Team/Tchoo-Discord-Bot#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
+}
