@@ -7,8 +7,8 @@ import EventListener from "./events/EventListener";
 export const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 // Start events and commands listeners :
-export const eventListener = new EventListener(client);
-export const commandListener = new CommandListener(client);
+export const eventListener = new EventListener().load(client);
+export const commandListener = new CommandListener().load(client);
 
 // Login the client :
 client.login(token);
