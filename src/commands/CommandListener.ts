@@ -39,7 +39,7 @@ export default class CommandListener {
 
     public async registerCommands() : Promise<void> {
         // Get command data :
-        const commands = this.commands.map(command => command.toJSON());
+        const commands = this.commands.map(command => command.slashCommand.toJSON());
     
         // Rest connection :
         const rest = new REST({ version: "9" }).setToken(token);
