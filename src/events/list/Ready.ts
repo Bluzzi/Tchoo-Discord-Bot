@@ -1,3 +1,4 @@
+import { client } from "../../Client";
 import EventAbstract from "../EventAbstract";
 
 export default class Ready extends EventAbstract {
@@ -6,6 +7,9 @@ export default class Ready extends EventAbstract {
     public once = true;
 
     public execute() : void {
-        console.log("Client is ready !"); // TODO : better message with log system ?
+        client.user?.setUsername("The Tchoos");
+        client.user?.setActivity({ type: "LISTENING", name: "your commands (do /)" })
+
+        console.log("[Tchoos BOT] Client is ready !");
     }
 }
