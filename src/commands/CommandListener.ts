@@ -48,7 +48,7 @@ export default class CommandListener {
         try {
             await rest.put(Routes.applicationCommands(clientId), { body: commands });
     
-            console.log("Successfully registered application commands.")
+            console.log("[Tchoos BOT] Successfully registered application commands."); // TODO : use log system
         } catch (error){
             console.error(error);
         }
