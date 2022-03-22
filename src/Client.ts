@@ -8,9 +8,15 @@ const allIntents = new Intents(32767);
 
 export const client = new Client({ intents: allIntents });
 
-// Start events and commands listeners :
-export const eventListener = new EventListener().load(client);
-export const commandListener = new CommandListener().load(client);
+export let eventListener: EventListener | null;
+export let commandListener: CommandListener | null;
 
-// Login the client :
-client.login(token);
+(async () => {
+    // Start events and commands listeners :
+
+    eventListener = await new EventListener().load(client);
+    commandListener = await new CommandListener().load(client);
+
+    // Login the client :
+    client.login(token);
+})();
