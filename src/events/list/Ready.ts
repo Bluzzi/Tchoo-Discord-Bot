@@ -1,6 +1,7 @@
 import { client } from "../../Client";
 import EventAbstract from "../EventAbstract";
-import { guildId } from "../../../resources/json/secret.json";
+import { guildId } from "../../../resources/json/information.json";
+import Logger from "../../utils/Logger";
 
 export default class Ready extends EventAbstract {
     
@@ -11,6 +12,6 @@ export default class Ready extends EventAbstract {
         (await client.guilds.fetch(guildId)).me?.setNickname("Tchoos");
         client.user?.setActivity({ type: "LISTENING", name: "your commands (do /)" })
 
-        console.log("[Tchoos BOT] Client is ready !"); // TODO : use log system
+        Logger.info("Client is ready !");
     }
 }
