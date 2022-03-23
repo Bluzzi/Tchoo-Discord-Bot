@@ -2,7 +2,9 @@ import { Client, Collection } from "discord.js";
 import CommandAbstract from "./CommandAbstract";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
-import { token, clientId } from "../../resources/json/secret.json";
+import { token } from "../../resources/json/secret.json";
+import { clientId } from "../../resources/json/information.json";
+import Logger from "../utils/Logger";
 import fs from "node:fs";
 
 export default class CommandListener {
@@ -48,7 +50,7 @@ export default class CommandListener {
         try {
             await rest.put(Routes.applicationCommands(clientId), { body: commands });
     
-            console.log("[Tchoos BOT] Successfully registered application commands."); // TODO : use log system
+            Logger.info("Successfully registered application commands");
         } catch (error){
             console.error(error);
         }
