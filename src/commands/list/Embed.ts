@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ChannelType } from "discord-api-types/v9";
 import { CommandInteraction } from "discord.js";
 import CommandAbstract from "../CommandAbstract";
 import EmbedCreator from "../../utils/Embed";
