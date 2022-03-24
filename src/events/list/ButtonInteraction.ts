@@ -1,5 +1,5 @@
 import EventAbstract from "../EventAbstract";
-import { staffRoles, channels } from "../../../resources/json/information.json";
+import { roles, channels } from "../../../resources/json/information.json";
 import { 
     AllowedThreadTypeForTextChannel, GuildMember, ThreadCreateOptions, 
     Interaction, MessageActionRow, MessageButton, TextChannel, ThreadChannel 
@@ -87,7 +87,7 @@ export default class ButtonInteraction extends EventAbstract {
         threadChannel.setLocked(false);
         threadChannel.permissionsFor(member);
 
-        for(const roleName of Object.values(staffRoles)){
+        for(const roleName of Object.values(roles.staffRoles)){
             const role = await channel.guild.roles.fetch(roleName);
 
             if(role) threadChannel.permissionsFor(role);
@@ -106,7 +106,7 @@ export default class ButtonInteraction extends EventAbstract {
         )
 
         threadChannel.send({
-            content: "Welcome <@" + member.id + ">, <@&" + staffRoles["Community Manager"] + ">", 
+            content: "Welcome <@" + member.id + ">, <@&" + roles.staffRoles["Community Manager"] + ">", 
             embeds: [Embed.simple("Ask your question, when a staff is available, it will come to answer you.")],
             components: [row]
         });
