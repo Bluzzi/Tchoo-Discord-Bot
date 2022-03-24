@@ -6,14 +6,22 @@
 
     "primaryColor": "#4F0E81",
 
-    "staffRoles": {
-        "Designer": "927202262466576404",
-        "Community Manager": "925348142751305768",
-        "Developper": "928414550963933224",
-        "Moderator": "925348176309911592"
+    "roles": {
+        "joinRole": "925390026416738325",
+        "staffRoles": {
+            "Designer": "927202262466576404",
+            "Community Manager": "925348142751305768",
+            "Developper": "928414550963933224",
+            "Moderator": "925348176309911592"
+        }
     },
 
     "channels": {
+        "captcha": "925389342443192330",
         "ticket": "925366599882530817"
+    },
+
+    "rateLimit": {
+        "joinActiveCaptcha": 30
     }
 }
