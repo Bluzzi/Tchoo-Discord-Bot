@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v9";
-import { ColorResolvable, CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction } from "discord.js";
 import CommandAbstract from "../CommandAbstract";
-import { primaryColor } from "../../../resources/json/information.json";
+import EmbedCreator from "../../utils/Embed";
 
 export default class Embed extends CommandAbstract {
 
@@ -20,7 +20,7 @@ export default class Embed extends CommandAbstract {
             )
             .addStringOption(option =>
                 option.setName("description")
-                .setDescription("Embed description")
+                .setDescription("Embed description (use /lb for add a breakline)")
                 .setRequired(true)
             )
             .addStringOption(option => 
@@ -33,6 +33,15 @@ export default class Embed extends CommandAbstract {
     }
 
     public async execute(interaction: CommandInteraction) : Promise<void> {
+        if(!interaction.memberPermissions?.has("ADMINISTRATOR")){
+            interaction.reply({ 
+                embeds: [EmbedCreator.simple("You don't have the permission to do this command")], 
+                ephemeral: true 
+            });
+
+            return;
+        }
+
         const channel = await interaction.guild?.channels.fetch(
             interaction.options.getChannel("channel")?.id ?? ""
         );
@@ -40,15 +49,12 @@ export default class Embed extends CommandAbstract {
         const title = interaction.options.getString("title");
         const description = interaction.options.getString("description");
 
-        const embed = new MessageEmbed().setDescription(description ?? "").setColor(<ColorResolvable>primaryColor);
-        if(title) embed.setTitle(title);
-
         if(channel && (channel.type === "GUILD_NEWS" || channel.type === "GUILD_TEXT")){
-            channel.send({ content: " ", embeds: [embed] });
+            channel.send({ content: " ", embeds: [EmbedCreator.simple(description ?? "", title ?? null)] });
 
-            interaction.reply({ content: "The embed has been sent", ephemeral: true });
+            interaction.reply({ embeds: [EmbedCreator.simple("The embed has been sent")], ephemeral: true });
         } else {
-            interaction.reply({ content: "An error has occurred", ephemeral: true });
+            interaction.reply({ embeds: [EmbedCreator.simple("An error has occurred")], ephemeral: true });
         }
     }
 }
