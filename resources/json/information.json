@@ -4,5 +4,16 @@
 
     "prefix": "[Tchoos BOT]",
 
-    "primaryColor": "#4F0E81"
+    "primaryColor": "#4F0E81",
+
+    "staffRoles": {
+        "Designer": "927202262466576404",
+        "Community Manager": "925348142751305768",
+        "Developper": "928414550963933224",
+        "Moderator": "925348176309911592"
+    },
+
+    "channels": {
+        "ticket": "925366599882530817"
+    }
 }
