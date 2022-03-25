@@ -33,12 +33,16 @@ export default class Embed extends CommandAbstract {
             return;
         }
 
-        const channel = await interaction.guild?.channels.fetch(interaction.channel?.id ?? "");
+        const channel = interaction.channel;
 
         const title = interaction.options.getString("title");
         const description = interaction.options.getString("description");
 
-        if(channel && (channel.type === "GUILD_NEWS" || channel.type === "GUILD_TEXT")){
+        if(
+            channel && 
+            (channel.type === "GUILD_NEWS" || channel.type === "GUILD_TEXT" || 
+            channel.type === "GUILD_PUBLIC_THREAD" || channel.type === "GUILD_PRIVATE_THREAD")
+        ){
             channel.send({ content: " ", embeds: [EmbedCreator.simple(description ?? "", title ?? null)] });
 
             interaction.reply({ embeds: [EmbedCreator.simple("The embed has been sent.")], ephemeral: true });
