@@ -25,7 +25,7 @@ export default class Embed {
             .setCaptcha({ size: 50, color: primaryColor })
             .setDecoy({ opacity: 0.5, total: 15 })
             .setTrace({ color: primaryColor })
-            .setBackground(__dirname + "/../../../resources/image/white.png");
+            .setBackground(__dirname + "/../../resources/image/white.png");
 
         const buffer = await captcha.generate();
         const imageName = "captcha.png";
