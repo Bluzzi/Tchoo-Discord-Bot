@@ -13,7 +13,6 @@ export let commandListener: CommandListener | null;
 
 (async () => {
     // Start events and commands listeners :
-
     eventListener = await new EventListener().load(client);
     commandListener = await new CommandListener().load(client);
 
