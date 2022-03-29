@@ -19,12 +19,22 @@ export default class ButtonInteraction extends EventAbstract {
         switch(interaction.customId){
             case "ticket-create":
                 if(interaction.member instanceof GuildMember){
+                    // Check if member have the base role :
+                    if(!interaction.member.roles.cache.has(roles.joinRole)){
+                        interaction.reply({ 
+                            embeds: [Embed.simple("You must complete the captcha in <#" + channels.captcha + "> to open a ticket.")], 
+                            ephemeral: true 
+                        });
+
+                        return;
+                    }
+
                     // And spam queue :
                     const memberId = interaction.member.id;
 
                     if(this.ticketAntiSpam.includes(memberId)){
                         interaction.reply({ 
-                            embeds: [Embed.simple("You have to wait before you can create a ticket again")], 
+                            embeds: [Embed.simple("You have to wait before you can create a ticket again.")], 
                             ephemeral: true 
                         });
 
