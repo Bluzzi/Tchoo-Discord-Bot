@@ -1,6 +1,7 @@
 import { GuildMember } from "discord.js";
 import EventAbstract from "../EventAbstract";
-import { channels, rateLimit, roles } from "../../../resources/json/information.json";
+import { Captcha } from "../../utils/Captcha";
+import { channels, roles, rateLimit } from "../../../resources/json/information.json";
 import Embed from "../../utils/Embed";
 
 export default class GuildMemberAdd extends EventAbstract {
@@ -25,22 +26,26 @@ export default class GuildMemberAdd extends EventAbstract {
 
         // Check if the join rate limit is exceeded :
         if(this.joinRateLimit.count < rateLimit.joinActiveCaptcha){
+            // Set the default role : 
             member.roles.add(roles.joinRole);
 
+            // Send welcome message :
+            const generalChannel = await member.guild.channels.fetch(channels.general);
+
+            if(generalChannel && generalChannel.type === "GUILD_TEXT"){
+                generalChannel.send({ 
+                    embeds: [Embed.simple("Welcome to the Tchoos community <@" + member.id + "> ! 👽")] 
+                });
+            }
+        
             return;
         }
 
-        // Get capcha channel :
-        const capchaChannel = await member.guild.channels.fetch(channels.captcha);
+        // Captcha system :
+        if(!Captcha.membersInVerify.get(member.id)){
+            const captcha = new Captcha(member);
 
-        if(!capchaChannel || capchaChannel.type !== "GUILD_TEXT") return;
-
-        // Create the captcha and send it :
-        const captcha = await Embed.captcha({ content: "Hello <@" + member.id + ">" });
-
-        capchaChannel.send(captcha.messageOptions);
-
-        // Create message collector :
-        // TODO
+            captcha.startVerify("Hello <@" + member.id + ">");
+        }
     }
 }
