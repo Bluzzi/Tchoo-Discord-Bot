@@ -2,7 +2,7 @@
   "name": "tchoo-discord-bot",
   "version": "1.0.0",
   "description": "The Tchoo Discord bot, made with DiscordJS.",
-  "main": "./build/Client.js",
+  "main": "./build/src/Client.js",
   "scripts": {
     "start": "node .",
     "dev": "nodemon --ignore ./resources/data/ --exec ts-node ./src/Client.ts",
