@@ -6,7 +6,7 @@ import { client } from "../../Client";
 
 export default class StatsChannel extends TaskAbstract {
 
-    public time: number = 1000 * 60 * 5;
+    public time: number = 1000 * 30;
 
     public async execute() : Promise<void> {
         const guild = await client.guilds.fetch(guildId);

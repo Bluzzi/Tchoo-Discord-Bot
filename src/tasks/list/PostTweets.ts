@@ -7,7 +7,7 @@ import { MessageActionRow, MessageButton } from "discord.js";
 
 export default class PostTweets extends TaskAbstract {
 
-    public time: number = 1000 * 60 * 3;
+    public time: number = 1000 * 60;
 
     public async execute() : Promise<void> {
         const postedTweetsPath = __dirname + "/../../../resources/data/last-tweets.json";
