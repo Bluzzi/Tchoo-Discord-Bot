@@ -1,11 +1,9 @@
 import { Client, Collection } from "discord.js";
 import CommandAbstract from "./CommandAbstract";
-import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v9";
-import { token } from "../../resources/json/secret.json";
-import { clientId } from "../../resources/json/information.json";
+import { guildId } from "../../resources/json/information.json";
 import Logger from "../utils/Logger";
 import fs from "node:fs";
+import { client, commandListener } from "../Client";
 
 export default class CommandListener {
 
@@ -22,9 +20,6 @@ export default class CommandListener {
             this.commands.set(command.name, command);
         }
 
-        // Register slash commands :
-        this.registerCommands();
-
         // Start commands event :
         client.on("interactionCreate", async interaction => {
             if(!interaction.isCommand()) return;
@@ -36,23 +31,31 @@ export default class CommandListener {
             command.execute(interaction);
         });
 
+        // Register commands :
+        client.once("ready", () => commandListener.registerCommands());
+
         return this;
     }
 
+    /**
+     * Register the slash commands (use it when the client is ready)
+     */
     public async registerCommands() : Promise<void> {
         // Get command data :
-        const commands = this.commands.map(command => command.slashCommand.toJSON());
-    
-        // Rest connection :
-        const rest = new REST({ version: "9" }).setToken(token);
-    
-        // Deploy commands :
-        try {
-            await rest.put(Routes.applicationCommands(clientId), { body: commands });
-    
-            Logger.info("Successfully registered application commands");
-        } catch (error){
-            console.error(error);
+        const commands = this.commands.map(command => command.slashCommand.setDefaultPermission(false).toJSON());
+
+        // Get command manager :
+        if(!client.application?.owner) await client.application?.fetch();
+
+        const commandManager = (await client.guilds.fetch(guildId)).commands;
+
+        // Set commands and permissions :
+        const commandsInstances = await commandManager.set(commands);
+
+        for(const command of commandsInstances.values()){
+            command.permissions.set({ permissions: this.commands.get(command.name).permissions });
         }
+    
+        Logger.info("Successfully registered application commands");
     }
 }

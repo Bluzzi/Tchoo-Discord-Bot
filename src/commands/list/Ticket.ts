@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, MessageActionRow, MessageButton } from "discord.js";
 import CommandAbstract from "../CommandAbstract";
 import Embed from "../../utils/Embed";
+import { roles } from "../../../resources/json/information.json";
 
 export default class Ticket extends CommandAbstract {
 
@@ -10,19 +11,17 @@ export default class Ticket extends CommandAbstract {
             .setName("ticket")
             .setDescription("Create a button to open tickets in this channel");
 
-        super(command);
+        super(
+            command,
+            [{
+                id: roles.staffRoles.Full,
+                type: "ROLE",
+                permission: true
+            }]
+        );
     }
 
     public async execute(interaction: CommandInteraction) : Promise<void> {
-        if(!interaction.memberPermissions?.has("ADMINISTRATOR")){
-            interaction.reply({ 
-                embeds: [Embed.simple("You don't have the permission to do this command")], 
-                ephemeral: true 
-            });
-
-            return;
-        }
-
         const embed = Embed.simple(
             "This is the place to open a ticket for assistance. " +
             "Please do not ping staff in tickets unless you have not " +

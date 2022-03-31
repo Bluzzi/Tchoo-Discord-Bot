@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import CommandAbstract from "../CommandAbstract";
 import EmbedCreator from "../../utils/Embed";
+import { roles } from "../../../resources/json/information.json";
 
 export default class Embed extends CommandAbstract {
 
@@ -20,19 +21,17 @@ export default class Embed extends CommandAbstract {
                 .setRequired(false)
             );
 
-        super(command);
+        super(
+            command,
+            [{
+                id: roles.staffRoles.Full,
+                type: "ROLE",
+                permission: true
+            }]
+        );
     }
 
     public async execute(interaction: CommandInteraction) : Promise<void> {
-        if(!interaction.memberPermissions?.has("ADMINISTRATOR")){
-            interaction.reply({ 
-                embeds: [EmbedCreator.simple("You don't have the permission to do this command.")], 
-                ephemeral: true 
-            });
-
-            return;
-        }
-
         const channel = interaction.channel;
 
         const title = interaction.options.getString("title");
