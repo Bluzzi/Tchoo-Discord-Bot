@@ -7,3 +7,6 @@ package-lock.json
 
 # Secret :
 /resources/json/secret.json
+
+# Data :
+resources/data/last-tweets.json
