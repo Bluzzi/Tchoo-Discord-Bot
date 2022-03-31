@@ -104,7 +104,7 @@ export default class ButtonInteraction extends EventAbstract {
         }
 
         // Remove automatic message sent in the ticket channel :
-        (await threadChannel.fetchStarterMessage()).delete(); // TODO : check if this is required for low level guild
+        if(threadConfig.type === "GUILD_PUBLIC_THREAD") (await threadChannel.fetchStarterMessage()).delete();
 
         // Send the confirmation (and remover) message in the thread :
         const row = new MessageActionRow().addComponents(
