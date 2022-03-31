@@ -2,6 +2,8 @@
     "clientId": "954024590781349920",
     "guildId": "918186701015371837",
 
+    "twitterAccount": "TheTchoos",
+
     "prefix": "[Tchoos BOT]",
 
     "primaryColor": "#4F0E81",
@@ -12,14 +14,21 @@
             "Designer": "927202262466576404",
             "Community Manager": "925348142751305768",
             "Developper": "928414550963933224",
-            "Moderator": "925348176309911592"
+            "Moderator": "925348176309911592",
+            "Full": "918195261224943656"
         }
     },
 
     "channels": {
         "general": "926436486432313395",
         "captcha": "925389342443192330",
-        "ticket": "925366599882530817"
+        "ticket": "925366599882530817",
+        "tweets": "925343537778790450",
+
+        "voice": {
+            "twitter": "954435163155222589",
+            "discord": "954435323818041444"
+        }
     },
 
     "rateLimit": {
