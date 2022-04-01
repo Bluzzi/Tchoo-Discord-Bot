@@ -5,6 +5,7 @@
   "main": "./build/src/Client.js",
   "scripts": {
     "start": "node .",
+    "start-ts": "ts-node ./src/Client.ts",
     "dev": "nodemon --ignore ./resources/data/ --exec ts-node ./src/Client.ts",
     "build": "tsc"
   },
