@@ -3,7 +3,7 @@ import CommandAbstract from "./CommandAbstract";
 import { guildId } from "../../resources/json/information.json";
 import Logger from "../utils/Logger";
 import fs from "node:fs";
-import { client, commandListener } from "../Client";
+import { client } from "../Client";
 
 export default class CommandListener {
 
@@ -32,7 +32,7 @@ export default class CommandListener {
         });
 
         // Register commands :
-        client.once("ready", () => commandListener.registerCommands());
+        client.once("ready", () => this.registerCommands());
 
         return this;
     }
