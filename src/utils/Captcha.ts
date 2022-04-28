@@ -24,7 +24,7 @@ export class Captcha {
             .setTrace({ color: primaryColor })
             .setBackground(__dirname + "/../../resources/image/white.png");
 
-        this.text = this.captcha.text;
+        this.text = this.captcha.text ?? "";
 
         // Save the member : 
         this.member = member;

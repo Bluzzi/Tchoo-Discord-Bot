@@ -1,6 +1,6 @@
-import fetch from "node-fetch";
 import { twitterToken } from "../../resources/json/secret.json";
 import { twitterAccount } from "../../resources/json/information.json";
+import { jsonFetch } from "./Fetch";
 
 interface Tweet {
     id: string;
@@ -27,12 +27,11 @@ export default class Twitter {
 
     public static async getInstance() : Promise<Twitter> {
         if(!Twitter.instance){
-            const response = await fetch("https://api.twitter.com/2/users/by/username/" + twitterAccount, {
+            const response = await jsonFetch<any>("https://api.twitter.com/2/users/by/username/" + twitterAccount, {
                 headers: authorization
             });
-            const { data } = await response.json();
 
-            Twitter.instance = new Twitter(data.id);
+            Twitter.instance = new Twitter(response.body.id);
         }
 
         return Twitter.instance;
@@ -42,20 +41,21 @@ export default class Twitter {
      * @returns the last 10 tweets
      */
     public async getTweets() : Promise<Tweet[]> {
-        const response = await fetch("https://api.twitter.com/2/users/" + this.accountId + "/tweets?exclude=retweets,replies", {
-            headers: authorization
-        });
-        const { data } = await response.json();
+        const response = await jsonFetch<{ data: Tweet[] }>(
+            "https://api.twitter.com/2/users/" + this.accountId + "/tweets?exclude=retweets,replies", 
+            {
+                headers: authorization
+            }
+        );
 
-        return data;
+        return response.body.data;
     }
 
     public async getFollowersCount() : Promise<number> {
-        const response = await fetch("https://api.twitter.com/2/users/by/username/TheTchoos?user.fields=public_metrics", {
+        const response = await jsonFetch<any>("https://api.twitter.com/2/users/by/username/TheTchoos?user.fields=public_metrics", {
             headers: authorization
         });
-        const { data } = await response.json();
         
-        return data["public_metrics"]["followers_count"] ?? 0;
+        return response.body.data["public_metrics"]["followers_count"] ?? 0;
     }
 }

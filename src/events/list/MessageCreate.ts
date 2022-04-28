@@ -13,7 +13,7 @@ export default class MessageCreate extends EventAbstract {
         const member = message.member;
     
         // Check if member have the default role :
-        if(!member.roles.cache.has(roles.joinRole) && !Captcha.membersInVerify.get(member.id)){
+        if(member && !member.roles.cache.has(roles.joinRole) && !Captcha.membersInVerify.get(member.id)){
             const captcha = new Captcha(member);
 
             captcha.startVerify("Hello <@" + member.id + ">"); 

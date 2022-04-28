@@ -19,9 +19,9 @@ export default class StatsChannel extends TaskAbstract {
         // Twitter channel update :
         const followersCount = await twitterAccount.getFollowersCount();
 
-        twitterChannel.setName(twitterChannel.name.replace(/\+?[0-9]*\.?[0-9]+k?/, Func.shortNumber(followersCount)));
+        if(twitterChannel) twitterChannel.setName(twitterChannel.name.replace(/\+?[0-9]*\.?[0-9]+k?/, Func.shortNumber(followersCount)));
 
         // Discord update :
-        discordChannel.setName(discordChannel.name.replace(/\+?[0-9]*\.?[0-9]+k?/, Func.shortNumber(guild.memberCount)));
+        if(discordChannel) discordChannel.setName(discordChannel.name.replace(/\+?[0-9]*\.?[0-9]+k?/, Func.shortNumber(guild.memberCount)));
     }
 }

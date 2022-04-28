@@ -24,7 +24,7 @@ export default class PostTweets extends TaskAbstract {
         for(const tweet of lastTweets){
             if(!postedTweets.includes(tweet.id)){
                 // Post the tweet :
-                if(tweetsChannel.type === "GUILD_NEWS"){
+                if(tweetsChannel && tweetsChannel.type === "GUILD_NEWS"){
                     const row = new MessageActionRow().addComponents([
                         new MessageButton()
                             .setURL("https://twitter.com/intent/retweet?tweet_id=" + tweet.id)

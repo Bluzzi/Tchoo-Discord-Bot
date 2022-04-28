@@ -53,7 +53,9 @@ export default class CommandListener {
         const commandsInstances = await commandManager.set(commands);
 
         for(const command of commandsInstances.values()){
-            command.permissions.set({ permissions: this.commands.get(command.name).permissions });
+            const permissions = this.commands.get(command.name)?.permissions;
+
+            if(permissions) command.permissions.set({ permissions: permissions });
         }
     
         Logger.info("Successfully registered application commands");
