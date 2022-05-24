@@ -21,14 +21,7 @@ export default class Embed extends CommandAbstract {
                 .setRequired(false)
             );
 
-        super(
-            command,
-            [{
-                id: roles.staffRoles.Full,
-                type: "ROLE",
-                permission: true
-            }]
-        );
+        super(command, false);
     }
 
     public async execute(interaction: CommandInteraction) : Promise<void> {

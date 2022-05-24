@@ -11,7 +11,7 @@ export default class CommandListener {
 
     public async load(client: Client) : Promise<CommandListener> {
         // Get commands instances :
-        for(const file of fs.readdirSync(__dirname + "/list").filter(file => file.endsWith(".ts"))){
+        for(const file of fs.readdirSync(__dirname + "/list")){
             const importTemp = await import("./list/" + file);
             const contructorName = Object.keys(importTemp)[0];
 
@@ -42,21 +42,13 @@ export default class CommandListener {
      */
     public async registerCommands() : Promise<void> {
         // Get command data :
-        const commands = this.commands.map(command => command.slashCommand.setDefaultPermission(false).toJSON());
+        const commands = this.commands.map(command => {
+            return command.slashCommand.setDefaultPermission(command.defaultPermission).toJSON()
+        });
 
-        // Get command manager :
-        if(!client.application?.owner) await client.application?.fetch();
-
-        const commandManager = (await client.guilds.fetch(guildId)).commands;
-
-        // Set commands and permissions :
-        const commandsInstances = await commandManager.set(commands);
-
-        for(const command of commandsInstances.values()){
-            const permissions = this.commands.get(command.name)?.permissions;
-
-            if(permissions) command.permissions.set({ permissions: permissions });
-        }
+        // Set guild commands :
+        // @ts-ignore : DJS - DJS/builders typing version problem
+        await (await client.guilds.fetch(guildId)).commands.set(commands);
     
         Logger.info("Successfully registered application commands");
     }

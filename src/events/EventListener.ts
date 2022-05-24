@@ -5,7 +5,7 @@ import fs from "node:fs";
 export default class EventListener {
 
     public async load(client: Client) : Promise<EventListener> {
-        for(const file of fs.readdirSync(__dirname + "/list").filter(file => file.endsWith(".ts"))){
+        for(const file of fs.readdirSync(__dirname + "/list")){
             const importTemp = await import("./list/" + file);
             const contructorName = Object.keys(importTemp)[0];
         

@@ -1,17 +1,17 @@
-import { ApplicationCommandPermissionData, CommandInteraction } from "discord.js";
+import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 export default abstract class Command {
 
     public readonly slashCommand: Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
-    public readonly permissions: ApplicationCommandPermissionData[];
+    public readonly defaultPermission: boolean;
 
     constructor(
         slashCommand: Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">, 
-        permissions: ApplicationCommandPermissionData[]
+        defaultPermission: boolean
     ){
         this.slashCommand = slashCommand;
-        this.permissions = permissions;
+        this.defaultPermission = defaultPermission;
     }
 
     get name() : string {
