@@ -31,7 +31,7 @@ export default class Twitter {
                 headers: authorization
             });
 
-            Twitter.instance = new Twitter(response.body.id);
+            Twitter.instance = new Twitter(response.body.data.id);
         }
 
         return Twitter.instance;
