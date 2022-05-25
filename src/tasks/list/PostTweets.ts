@@ -2,24 +2,20 @@ import TaskAbstract from "../TaskAbstract";
 import { channels, guildId, twitterAccount } from "../../../resources/json/information.json";
 import Twitter from "../../utils/Twitter";
 import { client } from "../../Client";
-import fs from "node:fs";
 import { MessageActionRow, MessageButton } from "discord.js";
+import lastTweetCollection from "../../database/collections/LastTweets";
 
 export default class PostTweets extends TaskAbstract {
 
     public time: number = 1000 * 60;
 
     public async execute() : Promise<void> {
-        const postedTweetsPath = __dirname + "/../../../resources/data/last-tweets.json";
-
-        if(!fs.existsSync(postedTweetsPath)) fs.appendFileSync(postedTweetsPath, "[]");
-
         const tweetsChannel = await (await client.guilds.fetch(guildId)).channels.fetch(channels.tweets);
 
         const twitter = await Twitter.getInstance();
 
         const lastTweets = await twitter.getTweets();
-        const postedTweets: string[] = JSON.parse(fs.readFileSync(postedTweetsPath, "utf-8"));
+        const postedTweets = (await lastTweetCollection.find().toArray()).map(element => element._id);
 
         for(const tweet of lastTweets){
             if(!postedTweets.includes(tweet.id)){
@@ -42,12 +38,9 @@ export default class PostTweets extends TaskAbstract {
                     message.crosspost();
                 }
 
-                // Add the tweet in posted tweet array :
-                postedTweets.push(tweet.id);
+                // Add the tweet in posted tweet database :
+                await lastTweetCollection.insertOne({ _id: tweet.id });
             }
         }
-
-        // Update posted tweets :
-        fs.writeFileSync(postedTweetsPath, JSON.stringify(postedTweets, null, 4));
     }
 }
